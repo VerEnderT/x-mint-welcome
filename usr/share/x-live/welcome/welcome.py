@@ -11,7 +11,7 @@ import subprocess
 # Pfad zum gewünschten Arbeitsverzeichnis # Das Arbeitsverzeichnis festlegen
 arbeitsverzeichnis = os.path.expanduser('/usr/share/x-live/welcome/')
 
-#os.chdir(arbeitsverzeichnis)
+os.chdir(arbeitsverzeichnis)
 
 class Fenster(QWidget):
 
