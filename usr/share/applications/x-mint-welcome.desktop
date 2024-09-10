@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=0.0.1
+Type=Application
+Name=X-Mint Willkommen
+Exec=x-mint-welcome
+Icon=x-mint
+Categories=Utility;
+Keywords=x-mint;willkommen;welcome;
+StartupNotify=true
+X-GNOME-UsesNotifications=true
+GenericName=Willkommen bei X-Mint
+Comment=
+Path=
+Terminal=false

@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=0.9.4
+Type=Application
+Name=loginsound x-mint
+Comment=
+Exec=ffplay /usr/share/x-live/welcome/sound/willkommen.mp3 -autoexit -nodisp
+OnlyShowIn=XFCE;
+RunHook=0
+StartupNotify=false
+Terminal=false
+Hidden=false
+
