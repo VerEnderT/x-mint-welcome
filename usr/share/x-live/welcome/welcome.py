@@ -101,6 +101,50 @@ class Fenster(QWidget):
             output = "kein command"
             return output
 
+    # Ermittlung der Benutzersprache
+    def get_user_language(self):
+        return os.environ.get('LANG', 'en_US')
+
+    # Setzen der Buttontexte basierend auf der Sprache
+    def set_button_texts(self,language):
+        if language.startswith("de"):
+            # Deutsche Buttontexte
+            return {
+                "ChangeBackground": "Hintergrundbild\nwechseln",
+                "ChangeResolution": "Auflösung ändern",
+                "SetupFirewall": "Firewall einrichten",
+                "DriverSetup": "Nvidia oder\nzusätzlicher Treiber",
+                "SetupPrinter": "Drucker einrichten",
+                "CreateBackup": "Sicherung erstellen",
+                "CheckUpdates": "Updates prüfen",
+                "GetSoftware": "Software beziehen",
+                "CustomizeSystem": " System\n anpassen",
+                "About": "über",
+                "OpenOnStartup": "Beim Start öffnen",
+                "StartupSound": "Startsound",
+                "ThunderbirdAutostart": "Thunderbird Autostart",
+                "ThunderbirdCalendarClock": "Thunderbird-KalenderUhr"
+            }
+        else:
+            # Englische Buttontexte
+            return {
+                "ChangeBackground": "Change\nBackground",
+                "ChangeResolution": "Change Resolution",
+                "SetupFirewall": "Set up Firewall",
+                "DriverSetup": "Nvidia or\nAdditional Driver",
+                "SetupPrinter": "Set up Printer",
+                "CreateBackup": "Create Backup",
+                "CheckUpdates": "Check for Updates",
+                "GetSoftware": "Get Software",
+                "CustomizeSystem": " Customize\n System",
+                "About": "About",
+                "OpenOnStartup": "Open on Startup",
+                "StartupSound": "Startup Sound",
+                "ThunderbirdAutostart": "Thunderbird Autostart",
+                "ThunderbirdCalendarClock": "Thunderbird Calendar Clock"
+            }
+
+
 
     # Hauptprogramm
     def __init__(self):
@@ -111,11 +155,12 @@ class Fenster(QWidget):
 
         self.toolname = "Willkommen bei X-Mint"
         self.clockcmdisset = 0
-        breite = 600
+        breite = 660
         hoehe = 505
         bts=16
         sts=14
-        
+        lang=self.get_user_language()
+        btn = self.set_button_texts(lang)
         # Beispielpfad mit nur ~
         path_with_tilde = '~'
 
@@ -203,31 +248,33 @@ class Fenster(QWidget):
         self.fw = 180
         fh = 28
         self.fh = 28
+        
+        
 
         # Ying und yang logo
         self.label_yay = QLabel(self)
         pixmap = QPixmap('./icons/Yin_and_Yang.png')
         self.label_yay.setPixmap(pixmap.scaled(150,150))
-        self.label_yay.move(230,230)
+        self.label_yay.move(255,230)
         self.label_yay.setStyleSheet("background: rgba(250,250, 250, 0);")
 
         # Label X-live und Welcome
         self.label1 = QLabel(self)
         pixmap = QPixmap('./icons/willkommen.png')
         self.label1.setPixmap(pixmap.scaled(560,270))
-        self.label1.move(20,0)
+        self.label1.move(60,0)
         self.label1.setStyleSheet("background: rgba(250,250, 250, 0);")
 
         # Wallpaper wechseln
-        self.btn_backg= QPushButton(self,text="Hintergrundbild\nwechseln")
+        self.btn_backg= QPushButton(self,text=btn['ChangeBackground'])
         self.btn_backg.setIcon(QIcon('./icons/computer.svg'))
         self.btn_backg.setIconSize(QtCore.QSize(48,48))
-        self.btn_backg.move(380,215)
+        self.btn_backg.move(430,215)
         self.btn_backg.clicked.connect(lambda:self.comd("xfdesktop-settings"))
         self.btn_backg.setFixedWidth(self.fw)
 
         # Auflösung ändern
-        self.btn_res= QPushButton(self,text="\tAuflösung ändern")
+        self.btn_res= QPushButton(self,text=btn['ChangeResolution'])
         self.btn_res.setIcon(QIcon('./icons/auflosung1.png'))
         self.btn_res.setIconSize(QtCore.QSize(48,48))
         self.btn_res.move(20,280)
@@ -235,15 +282,15 @@ class Fenster(QWidget):
         self.btn_res.setFixedWidth(self.fw)
 
         # FireWall einrichten
-        self.btn_gufw= QPushButton(self,text="Firewall einrichten")
+        self.btn_gufw= QPushButton(self,text=btn['SetupFirewall'])
         self.btn_gufw.setIcon(QIcon('./icons/gufw.png'))
         self.btn_gufw.setIconSize(QtCore.QSize(48,48))
-        self.btn_gufw.move(410,280)
+        self.btn_gufw.move(460,280)
         self.btn_gufw.clicked.connect(lambda:self.comd("gufw"))
         self.btn_gufw.setFixedWidth(self.fw)
 
         # Nvidia und treiber
-        self.btn_driver= QPushButton(self,text="Nvidia oder\nzusätzlicher Treiber")
+        self.btn_driver= QPushButton(self,text=btn['DriverSetup'])
         self.btn_driver.setIcon(QIcon('./icons/nvidia.png'))
         self.btn_driver.setIconSize(QtCore.QSize(48,48))
         self.btn_driver.move(50,215)
@@ -251,7 +298,7 @@ class Fenster(QWidget):
         self.btn_driver.setFixedWidth(self.fw)
 
         # Drucker
-        self.btn_printer= QPushButton(self,text="Drucker einrichten")
+        self.btn_printer= QPushButton(self,text=btn['SetupPrinter'])
         self.btn_printer.setIcon(QIcon('./icons/printer.svg'))
         self.btn_printer.setIconSize(QtCore.QSize(48,48))
         self.btn_printer.move(40,345)
@@ -259,80 +306,80 @@ class Fenster(QWidget):
         self.btn_printer.setFixedWidth(self.fw)
 
         # Backup
-        self.btn_update= QPushButton(self,text="Sicherung erstellen")
+        self.btn_update= QPushButton(self,text=btn['CreateBackup'])
         self.btn_update.setIcon(QIcon('./icons/timeshift.svg'))
         self.btn_update.setIconSize(QtCore.QSize(48,48))
-        self.btn_update.move(390,345)
+        self.btn_update.move(440,345)
         self.btn_update.clicked.connect(lambda:self.comd("timeshift-launcher"))
         self.btn_update.setFixedWidth(self.fw)
 
         # Updatechek
-        self.btn_update= QPushButton(self,text=" Updates prüfen")
+        self.btn_update= QPushButton(self,text=btn['CheckUpdates'])
         self.btn_update.setIcon(QIcon('./icons/update.png'))
         self.btn_update.setIconSize(QtCore.QSize(48,48))
-        self.btn_update.move(55,405)
+        self.btn_update.move(65,405)
         self.btn_update.clicked.connect(lambda:self.comd("/usr/bin/mintupdate"))
         self.btn_update.setFixedWidth(self.fw)
 
         # Softwarecenter
-        self.btn_software= QPushButton(self,text="Software Center")
+        self.btn_software= QPushButton(self,text=btn['GetSoftware'])
         self.btn_software.setIcon(QIcon('./icons/softwarecenter.svg'))
         self.btn_software.setIconSize(QtCore.QSize(48,48))
-        self.btn_software.move(375,405)
+        self.btn_software.move(415,405)
         self.btn_software.clicked.connect(lambda:self.comd("mintinstall"))
         self.btn_software.setFixedWidth(self.fw)
 
         # Layout
-        self.btn_layout= QPushButton(self,text="\tSystem\n\tanpassen")
+        self.btn_layout= QPushButton(self,text=btn['CustomizeSystem'])
         self.btn_layout.setIcon(QIcon('./icons/layout.png'))
         self.btn_layout.setIconSize(QtCore.QSize(48,48))
-        self.btn_layout.move(242,405)
+        self.btn_layout.move(265,405)
         self.btn_layout.clicked.connect(lambda:self.comd("x-mint-settings"))
-        self.btn_layout.setFixedWidth(int(self.fw*0.7))
+        self.btn_layout.setFixedWidth(int(self.fw*0.75))
 
 
         # über
-        self.btn_uber= QPushButton(self,text="über")
+        self.btn_uber= QPushButton(self,text=btn['About'])
         self.btn_uber.setIcon(QIcon('./icons/logo.png'))
         self.btn_uber.setIconSize(QtCore.QSize(22,22))
-        self.btn_uber.move(500,5)
+        self.btn_uber.move(550,5)
         self.btn_uber.clicked.connect(self.show_about_dialog)
         self.btn_uber.setFixedWidth(90)
 
         # bei start öffnen
-        self.cb_startup = QCheckBox("Beim Start öffnen",self)
+        self.cb_startup = QCheckBox(btn['OpenOnStartup'],self)
         if os.path.isfile(self.home + '/.config/autostart/x-mint-welcome.desktop'):
             self.cb_startup.setChecked(True)
         self.cb_startup.move(15,470)
         self.cb_startup.stateChanged.connect(self.clickBox)
 
         # bei login sound  
-        self.cb_loginsound = QCheckBox("Startsound",self)
+        self.cb_loginsound = QCheckBox(btn['StartupSound'],self)
         if os.path.isfile(self.home + '/.config/autostart/loginsound.desktop'):
             self.cb_loginsound.setChecked(True)
         self.cb_loginsound.move(155,470)
         self.cb_loginsound.stateChanged.connect(self.logonsound_click)
 
         # bei thunderbird autostart 
-        self.cb_thunderup = QCheckBox("Thunderbird Autostart",self)
+        self.cb_thunderup = QCheckBox(btn['ThunderbirdAutostart'],self)
         if os.path.isfile(self.home + '/.config/autostart/thunderbird.desktop'):
             self.cb_thunderup.setChecked(True)
-        self.cb_thunderup.move(250,470)
+        self.cb_thunderup.move(290,470)
         self.cb_thunderup.stateChanged.connect(self.thunderup_click)
 
         # bei Thunderbird Uhr Integration
-        self.cb_thunderclock = QCheckBox("Thunderbird-KalenderUhr",self)
+        self.cb_thunderclock = QCheckBox(btn['ThunderbirdCalendarClock'],self)
         self.clockwidget = self.clockid()
         if self.clockcommand().find("thunderbird -calendar") != -1:
             self.cb_thunderclock.setChecked(True)
-        self.cb_thunderclock.move(415,470)
+        self.cb_thunderclock.move(455,470)
         self.cb_thunderclock.stateChanged.connect(self.thunderclock_click)
 
         self.label = QLabel(self)
         pixmap = QPixmap('./icons/x-mint.png')
         self.label.setPixmap(pixmap.scaled(450,119))
         self.label.setStyleSheet("background: rgba(250,250, 250, 0);")
-        self.label.move(75,100)
+        self.label.move(115,100)
 
         # Fenster anzeigen
         x = int(app.desktop().width()/2-int(breite/2))
@@ -465,28 +512,44 @@ class Fenster(QWidget):
 
 
     def show_about_dialog(self):
-        # Extrahiere die Version aus dem apt show-Befehl
+        # Extrahiere die Version aus der Versionsermittlungsfunktion
         version = self.get_version_info()
+        language = self.get_user_language()
+
+        # Setze den Text je nach Sprache
+        if language.startswith("de"):
+            title = "Über X-Mint Welcome"
+            text = (f"X-Mint Welcome<br><br>"
+                    f"Autor: VerEnderT aka F. Maczollek<br>"
+                    f"Webseite: <a href='https://github.com/verendert/x-mint-welcome'>https://github.com/verendert/x-mint-welcome</a><br>"
+                    f"Version: {version}<br><br>"
+                    f"Copyright © 2023 - 2024 VerEnderT<br>"
+                    f"Dies ist freie Software; Sie können es unter den Bedingungen der GNU General Public License Version 3 oder einer späteren Version weitergeben und/oder modifizieren.<br>"
+                    f"Dieses Programm wird in der Hoffnung bereitgestellt, dass es nützlich ist, aber OHNE JEDE GARANTIE; sogar ohne die implizite Garantie der MARKTGÄNGIGKEIT oder EIGNUNG FÜR EINEN BESTIMMTEN ZWECK.<br><br>"
+                    f"Sie sollten eine Kopie der GNU General Public License zusammen mit diesem Programm erhalten haben. Wenn nicht, siehe <a href='https://www.gnu.org/licenses/'>https://www.gnu.org/licenses/</a>.")
+        else:
+            title = "About X-Mint Welcome"
+            text = (f"X-Mint Welcome<br><br>"
+                    f"Author: VerEnderT aka F. Maczollek<br>"
+                    f"Website: <a href='https://github.com/verendert/x-mint-welcome'>https://github.com/verendert/x-mint-welcome</a><br>"
+                    f"Version: {version}<br><br>"
+                    f"Copyright © 2023 - 2024 VerEnderT<br>"
+                    f"This is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License Version 3 or any later version.<br>"
+                    f"This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.<br><br>"
+                    f"You should have received a copy of the GNU General Public License along with this program. If not, see <a href='https://www.gnu.org/licenses/'>https://www.gnu.org/licenses/</a>.")
         
         # Über Fenster anzeigen
         msg_box = QMessageBox()
-        msg_box.setWindowTitle("Über X-Mint Welcome")
+        msg_box.setWindowTitle(title)
         msg_box.setTextFormat(Qt.RichText)  # Setze den Textformatierungsmodus auf RichText (HTML)
-        msg_box.setText(f"X-Mint Welcome<br><br>"
-                        f"Autor: VerEnderT aka F. Maczollek<br>"
-                        f"Webseite: <a href='https://github.com/verendert/x-mint-welcome'>https://github.com/verendert/x-mint-welcome</a><br>"
-                        f"Version: {version}<br><br>"
-                        f"Copyright © 2023 - 2024 VerEnderT<br>"
-                        f"Dies ist freie Software; Sie können es unter den Bedingungen der GNU General Public License Version 3 oder einer späteren Version weitergeben und/oder modifizieren.<br>"
-                        f"Dieses Programm wird in der Hoffnung bereitgestellt, dass es nützlich ist, aber OHNE JEDE GARANTIE; sogar ohne die implizite Garantie der MARKTGÄNGIGKEIT oder EIGNUNG FÜR EINEN BESTIMMTEN ZWECK.<br><br>"
-                        f"Sie sollten eine Kopie der GNU General Public License zusammen mit diesem Programm erhalten haben. Wenn nicht, siehe <a href='https://www.gnu.org/licenses/'>https://www.gnu.org/licenses/</a>.")
+        msg_box.setText(text)
         msg_box.setIcon(QMessageBox.Information)
         msg_box.exec_()
 
 
     def get_version_info(self):
         try:
-            result = subprocess.run(['apt', 'show', 'x-live-taskmanager'], capture_output=True, text=True)
+            result = subprocess.run(['apt', 'show', 'x-mint-welcome'], capture_output=True, text=True)
             for line in result.stdout.splitlines():
                 if line.startswith('Version:'):
                     return line.split(':', 1)[1].strip()
